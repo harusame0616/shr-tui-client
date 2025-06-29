@@ -1,5 +1,5 @@
 {
-  "name": "tui",
+  "name": "@harusame-dev/shr-client-tui",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
