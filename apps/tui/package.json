@@ -16,7 +16,8 @@
     "ink": "6.0.1",
     "ink-form": "2.0.1",
     "jotai": "2.12.5",
-    "react": "19.1.0"
+    "react": "19.1.0",
+    "valibot": "1.1.0"
   },
   "devDependencies": {
     "@types/node": "24.0.7",
