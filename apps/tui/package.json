@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx src/main.tsx"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +15,10 @@
     "@inkjs/ui": "2.0.0",
     "ink": "6.0.1",
     "react": "19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.7",
+    "@types/react": "19.1.8",
+    "tsx": "4.20.3"
   }
 }
