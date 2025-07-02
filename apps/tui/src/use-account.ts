@@ -8,7 +8,7 @@ type Account = {
   token: string;
 };
 
-const accountsAtom = atom<Account[]>();
+const accountsAtom = atom<Account[]>([]);
 const activeAccountIdAtom = atom<string | null>(null);
 export function useAccounts() {
   const [accounts, setAccounts] = useAtom(accountsAtom);

@@ -3,7 +3,6 @@ import { useAccounts } from "./use-account";
 import { Select } from "@inkjs/ui";
 import React from "react";
 import { Display, useDisplay } from "./use-display";
-import Divider from "ink-divider";
 
 export function AccountSelect() {
   const { isFocused, focus } = useFocus({
