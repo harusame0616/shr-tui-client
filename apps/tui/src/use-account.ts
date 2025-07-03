@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 import { uuidv7 } from "uuidv7";
 
-type Account = {
+export type Account = {
   accountId: string;
   name: string;
   endpoint: string;
