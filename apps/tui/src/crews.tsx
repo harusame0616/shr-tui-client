@@ -3,6 +3,7 @@ import { Account } from "./use-account";
 import React from "react";
 import { useCrews } from "./use-crews";
 import { Select } from "@inkjs/ui";
+import { useSelectedCrew } from "./use-selected-crew";
 
 type Props = {
   account: Account;
@@ -12,6 +13,7 @@ export function Crews({ account }: Props) {
     id: "crews",
   });
   const { crews, error, isLoading } = useCrews(account);
+  const { setSelectedCrewId } = useSelectedCrew();
 
   const renderContent = () => {
     if (isLoading) {
@@ -29,12 +31,15 @@ export function Crews({ account }: Props) {
     return (
       <Box flexDirection="column" width="100%">
         <Select
-        visibleOptionCount={100}
-        isDisabled={!isFocused}
+          visibleOptionCount={100}
+          isDisabled={!isFocused}
           options={crews.map((crew) => ({
             label: `${crew.lastName} ${crew.firstName}（${crew.employeeCode}）`,
-            value: crew.crewId
+            value: crew.crewId,
           }))}
+          onChange={(value) => {
+            setSelectedCrewId(value);
+          }}
         />
       </Box>
     );

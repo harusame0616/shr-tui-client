@@ -16,7 +16,7 @@ any_failed=0
 
 # Run TypeScript type check
 echo "Running TypeScript type check..." >&2
-tsc_output=$(pnpm tsc --noEmit 2>&1)
+tsc_output=$(pnpm tsc --noEmit $file_path 2>&1)
 tsc_exit_code=$?
 
 if [ $tsc_exit_code -ne 0 ]; then
