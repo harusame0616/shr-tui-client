@@ -29,9 +29,6 @@ importers:
       ink-form:
         specifier: 2.0.1
         version: 2.0.1(ink@6.0.1(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
-      ink-table:
-        specifier: 3.1.0
-        version: 3.1.0(ink@6.0.1(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
       jotai:
         specifier: 2.12.5
         version: 2.12.5(@types/react@19.1.8)(react@19.1.0)
@@ -41,6 +38,9 @@ importers:
       swr:
         specifier: 2.3.4
         version: 2.3.4(react@19.1.0)
+      uuid:
+        specifier: 11.1.0
+        version: 11.1.0
       valibot:
         specifier: 1.1.0
         version: 1.1.0(typescript@5.8.3)
@@ -464,12 +464,6 @@ packages:
       ink: ^4.0.0
       react: ^18.0.0
 
-  ink-table@3.1.0:
-    resolution: {integrity: sha512-qxVb4DIaEaJryvF9uZGydnmP9Hkmas3DCKVpEcBYC0E4eJd3qNgNe+PZKuzgCERFe9LfAS1TNWxCr9+AU4v3YA==}
-    peerDependencies:
-      ink: '>=3.0.0'
-      react: '>=16.8.0'
-
   ink-text-input@6.0.0:
     resolution: {integrity: sha512-Fw64n7Yha5deb1rHY137zHTAbSTNelUKuB5Kkk2HACXEtwIHBCf9OH2tP/LQ9fRYTl1F0dZgbW0zPnZk6FA9Lw==}
     engines: {node: '>=18'}
@@ -576,10 +570,6 @@ packages:
 
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
-
-  object-hash@2.2.0:
-    resolution: {integrity: sha512-gScRMn0bS5fH+IuwyIFgnh9zBdo4DV+6GhygmWM9HyNJSgS0hScp1f5vjtm7oIIOiT9trXrShAkLFSc2IqKNgw==}
-    engines: {node: '>= 6'}
 
   onetime@5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
@@ -700,6 +690,10 @@ packages:
     resolution: {integrity: sha512-Rb46I4cGGVBmjamjphe8L/UnvJD+uPPtTkNvX5mZgqdbavhI4EbgIWJiIHXJ8bc/i9EQGPRh4DwEURJ552Do0A==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
 
   valibot@1.1.0:
     resolution: {integrity: sha512-Nk8lX30Qhu+9txPYTwM0cFlWLdPFsFr6LblzqIySfbZph9+BFsAHsNvHOymEviUepeIW6KFHzpX8TKhbptBXXw==}
@@ -1070,12 +1064,6 @@ snapshots:
       lodash.isequal: 4.5.0
       react: 19.1.0
 
-  ink-table@3.1.0(ink@6.0.1(@types/react@19.1.8)(react@19.1.0))(react@19.1.0):
-    dependencies:
-      ink: 6.0.1(@types/react@19.1.8)(react@19.1.0)
-      object-hash: 2.2.0
-      react: 19.1.0
-
   ink-text-input@6.0.0(ink@6.0.1(@types/react@19.1.8)(react@19.1.0))(react@19.1.0):
     dependencies:
       chalk: 5.4.1
@@ -1183,8 +1171,6 @@ snapshots:
   mimic-fn@2.1.0: {}
 
   minimist@1.2.8: {}
-
-  object-hash@2.2.0: {}
 
   onetime@5.1.2:
     dependencies:
@@ -1301,6 +1287,8 @@ snapshots:
   use-sync-external-store@1.5.0(react@19.1.0):
     dependencies:
       react: 19.1.0
+
+  uuid@11.1.0: {}
 
   valibot@1.1.0(typescript@5.8.3):
     optionalDependencies:

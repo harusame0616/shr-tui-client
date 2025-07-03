@@ -1,5 +1,5 @@
 import { atom, useAtom } from "jotai";
-import { uuidv7 } from "uuidv7";
+import { v4 as uuid } from "uuid";
 import { FileConfigManager } from "./file-config-manager";
 import { useEffect } from "react";
 
@@ -12,7 +12,6 @@ export type Account = {
 
 const configManager = new FileConfigManager();
 
-
 const accountsAtom = atom<Account[]>([]);
 const activeAccountIdAtom = atom<string | null>(null);
 const isInitializedAtom = atom(false);
@@ -24,14 +23,16 @@ export function useAccounts() {
   // 初期化処理
   useEffect(() => {
     if (!isInitialized) {
-      configManager.load().then((config) => {
-        setAccounts(config.accounts);
-        setActiveAccountId(config.lastActiveAccountId);
-        setIsInitialized(true);
-      }).catch((error) => {
-        console.error("設定ファイルの読み込みに失敗しました:", error);
-        setIsInitialized(true);
-      });
+      configManager
+        .load()
+        .then((config) => {
+          setAccounts(config.accounts);
+          setActiveAccountId(config.lastActiveAccountId);
+          setIsInitialized(true);
+        })
+        .catch(() => {
+          setIsInitialized(true);
+        });
     }
   }, [isInitialized, setAccounts, setActiveAccountId, setIsInitialized]);
 
@@ -41,11 +42,11 @@ export function useAccounts() {
       throw new Error("登録済みの名前です");
     }
 
-    const newAccountWithId = { accountId: uuidv7(), ...newAccount };
+    const newAccountWithId = { accountId: uuid(), ...newAccount };
     const updatedAccounts = [...accounts, newAccountWithId];
-    
+
     setAccounts(updatedAccounts);
-    
+
     // 設定ファイルに保存
     await configManager.save({
       accounts: updatedAccounts,
@@ -55,7 +56,7 @@ export function useAccounts() {
 
   async function activateAccount(accountId: string) {
     setActiveAccountId(accountId);
-    
+
     // 設定ファイルに保存
     await configManager.save({
       accounts,
