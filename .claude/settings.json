@@ -1,0 +1,19 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path | select(endswith(\".ts\") or endswith(\".tsx\"))' | xargs -r pnpm prettier --write "
+          },
+          {
+            "type": "command",
+            "command": "./.claude/lint-hook.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
