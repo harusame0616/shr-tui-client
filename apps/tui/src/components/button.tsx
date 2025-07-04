@@ -4,32 +4,25 @@ import React from "react";
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
-  id?: string;
-  autoFocus?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
-  id,
-  autoFocus = false,
 }) => {
   const { isFocused } = useFocus({
-    id,
-    autoFocus,
+    autoFocus:false,
   });
 
   useInput(
     (_, key) => {
-      if (!key.return) {
+      if (!key.return || !isFocused) {
         return;
       }
 
       onClick?.();
     },
-    {
-      isActive: isFocused,
-    }
+    { isActive: isFocused, }
   );
 
   return (
