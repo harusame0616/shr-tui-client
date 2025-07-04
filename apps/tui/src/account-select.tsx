@@ -27,7 +27,14 @@ export function AccountSelect() {
   return (
     <Box borderStyle="round" flexDirection="column" height={9}>
       <Text bold={isFocused}>{isFocused && "▶  "}アカウント</Text>
-      <Text>------------------------</Text>
+      {isFocused && <Text dimColor>※ Aキーで追加</Text>}
+      <Box
+        width="100%"
+        borderStyle={"single"}
+        borderTop={false}
+        borderLeft={false}
+        borderRight={false}
+      />
       <Select
         isDisabled={!isFocused}
         defaultValue={activeAccount?.accountId}

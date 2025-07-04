@@ -18,7 +18,7 @@ export function ApiSelect() {
   return (
     <Box borderStyle="round" flexDirection="column" height={9}>
       <Text bold={isFocused}>{isFocused && "▶  "}API</Text>
-      <Text>------------------------</Text>
+      <Box width="100%" borderStyle={"single"} borderTop={false} borderLeft={false} borderRight={false} />
       <Select
         isDisabled={!isFocused}
         defaultValue={activeApi?.apiId}

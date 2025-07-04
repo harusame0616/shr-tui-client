@@ -1,4 +1,4 @@
-import { Box, Text, useFocus } from "ink";
+import { Box, Text, useFocus, useInput } from "ink";
 import { Account } from "./use-account";
 import React from "react";
 import { useCrews } from "./use-crews";
@@ -7,13 +7,30 @@ import { useSelectedCrew } from "./use-selected-crew";
 
 type Props = {
   account: Account;
+  onSearchKeyPress?: () => void;
 };
-export function Crews({ account }: Props) {
+
+export function Crews({ account, onSearchKeyPress }: Props) {
   const { isFocused } = useFocus({
     id: "crews",
   });
-  const { crews, error, isLoading } = useCrews(account);
+  const { crews, error, isLoading, searchCondition, setSearchCondition } =
+    useCrews(account);
   const { setSelectedCrewId } = useSelectedCrew();
+
+  // ショートカットキーの処理
+  useInput((input) => {
+    if (isFocused) {
+      // Fキーで検索フォーム表示
+      if (input.toLowerCase() === "f" && onSearchKeyPress) {
+        onSearchKeyPress();
+      }
+      // Cキーで検索条件クリア
+      if (input.toLowerCase() === "c" && searchCondition) {
+        setSearchCondition(undefined);
+      }
+    }
+  });
 
   const renderContent = () => {
     if (isLoading) {
@@ -46,9 +63,21 @@ export function Crews({ account }: Props) {
   };
 
   return (
-    <Box borderStyle="round" flexDirection="column" minHeight={15}>
+    <Box borderStyle="round" flexDirection="column" minHeight={15} width="100%">
       <Text bold={isFocused}>{isFocused && "▶  "}従業員一覧</Text>
-      <Text>------------------------</Text>
+      {isFocused && (
+        <Box flexDirection="column">
+          <Text dimColor>※ Fキーで検索</Text>
+          {searchCondition && <Text dimColor>※ Cキーで検索条件クリア</Text>}
+        </Box>
+      )}
+      <Box
+        width="100%"
+        borderStyle={"single"}
+        borderTop={false}
+        borderLeft={false}
+        borderRight={false}
+      />
       <Box paddingTop={1}>{renderContent()}</Box>
     </Box>
   );

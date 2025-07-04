@@ -144,9 +144,15 @@ export function CrewDetail({ account }: Props) {
   };
 
   return (
-    <Box borderStyle="round" flexDirection="column" padding={1} minHeight={20}>
+    <Box borderStyle="round" flexDirection="column" minHeight={20}>
       <Text bold>従業員詳細</Text>
-      <Text>------------------------</Text>
+      <Box
+        width="100%"
+        borderStyle={"single"}
+        borderTop={false}
+        borderLeft={false}
+        borderRight={false}
+      />
       <Box paddingTop={1}>{renderContent()}</Box>
     </Box>
   );
