@@ -1,9 +1,9 @@
+import { Select } from "@inkjs/ui";
 import { Box, Text, useFocus, useInput } from "ink";
 import React from "react";
-import { Select } from "@inkjs/ui";
+import { Account } from "../account/use-account";
 import { useCrews } from "./use-crews";
 import { useSelectedCrew } from "./use-selected-crew";
-import { Account } from "../account/use-account";
 
 type Props = {
   account: Account;
@@ -11,13 +11,11 @@ type Props = {
 };
 
 export function Crews({ account, onSearchKeyPress }: Props) {
+  const { crews, error, isLoading, searchCondition, setSearchCondition } =
+    useCrews(account);
   const { isFocused } = useFocus({
     id: "crews",
   });
-  const { crews, error, isLoading, searchCondition, setSearchCondition } =
-    useCrews(account);
-  const { setSelectedCrewId } = useSelectedCrew();
-
   // ショートカットキーの処理
   useInput((input) => {
     if (isFocused) {
@@ -31,36 +29,6 @@ export function Crews({ account, onSearchKeyPress }: Props) {
       }
     }
   });
-
-  const renderContent = () => {
-    if (isLoading) {
-      return <Text color="gray">読み込み中...</Text>;
-    }
-
-    if (error) {
-      return <Text color="red">エラー: {error.message}</Text>;
-    }
-
-    if (!crews || crews.length === 0) {
-      return <Text color="gray">従業員データがありません</Text>;
-    }
-
-    return (
-      <Box flexDirection="column" width="100%">
-        <Select
-          visibleOptionCount={100}
-          isDisabled={!isFocused}
-          options={crews.map((crew) => ({
-            label: `${crew.lastName} ${crew.firstName}（${crew.employeeCode}）`,
-            value: crew.crewId,
-          }))}
-          onChange={(value) => {
-            setSelectedCrewId(value);
-          }}
-        />
-      </Box>
-    );
-  };
 
   return (
     <Box borderStyle="round" flexDirection="column" minHeight={15} width="100%">
@@ -78,7 +46,46 @@ export function Crews({ account, onSearchKeyPress }: Props) {
         borderLeft={false}
         borderRight={false}
       />
-      <Box paddingTop={1}>{renderContent()}</Box>
+      <Box paddingTop={1}>
+        <CrewsContent crews={crews} error={error} isLoading={isLoading} isFocused={isFocused} />
+      </Box>
+    </Box>
+  );
+}
+
+function CrewsContent({
+  crews,
+  error,
+  isLoading,
+  isFocused,
+}: Pick<ReturnType<typeof useCrews>, "crews" | "error" | "isLoading"> & {isFocused:boolean}) {
+  const { setSelectedCrewId } = useSelectedCrew();
+
+  if (isLoading) {
+    return <Text color="gray">読み込み中...</Text>;
+  }
+
+  if (error) {
+    return <Text color="red">エラー: {error.message}</Text>;
+  }
+
+  if (!crews || crews.length === 0) {
+    return <Text color="gray">従業員データがありません</Text>;
+  }
+
+  return (
+    <Box flexDirection="column" width="100%">
+      <Select
+        visibleOptionCount={100}
+        isDisabled={!isFocused}
+        options={crews.map((crew) => ({
+          label: `${crew.lastName} ${crew.firstName}（${crew.employeeCode}）`,
+          value: crew.crewId,
+        }))}
+        onChange={(value) => {
+          setSelectedCrewId(value);
+        }}
+      />
     </Box>
   );
 }
