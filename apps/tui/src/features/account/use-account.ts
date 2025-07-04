@@ -1,6 +1,6 @@
 import { atom, useAtom } from "jotai";
 import { v4 as uuid } from "uuid";
-import { FileConfigManager } from "./file-config-manager";
+import { FileConfigManager } from "../config/file-config-manager";
 import { useEffect } from "react";
 
 export type Account = {

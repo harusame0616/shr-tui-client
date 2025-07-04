@@ -1,13 +1,13 @@
 import { Box, Text } from "ink";
 import React, { useState } from "react";
-import { AccountSelect } from "../account-select";
-import { ApiSelect } from "../api-select";
-import { Crews } from "../crews";
-import { CrewDetail } from "../crew-detail";
-import { CrewSearchForm } from "../crew-search-form";
-import { useAccounts } from "../use-account";
-import { useApi } from "../use-api";
-import { useSelectedCrew } from "../use-selected-crew";
+import { AccountSelect } from "./features/account/account-select";
+import { ApiSelect } from "./features/api/api-select";
+import { CrewDetail } from "./features/crew/crew-detail";
+import { CrewSearchForm } from "./features/crew/crew-search-form";
+import { useAccounts } from "./features/account/use-account";
+import { useApi } from "./features/api/use-api";
+import { useSelectedCrew } from "./features/crew/use-selected-crew";
+import { Crews } from "./features/crew/crews";
 
 export function Main() {
   return (

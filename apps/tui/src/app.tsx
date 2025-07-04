@@ -1,9 +1,7 @@
-import { Box, Text } from "ink";
 import React from "react";
-import { AccountAdditionForm } from "./accont-addition-form";
-import { AccountSelect } from "./account-select";
+import { AccountAdditionForm } from "./features/account/accont-addition-form";
 import { Display, useDisplay } from "./use-display";
-import { Main } from "./display/main";
+import { Main } from "./main";
 
 export function App() {
   const { display } = useDisplay();

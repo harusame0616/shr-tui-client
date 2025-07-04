@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { Account } from "./use-account";
+import { Account } from "../account/use-account";
 import { SmartHrCrew } from "./smart-hr-crew";
 import { SmartHrUser } from "./smart-hr-user";
 import * as v from "valibot";

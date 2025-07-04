@@ -1,9 +1,9 @@
 import { Box, Text, useFocus, useInput } from "ink";
-import { Account } from "./use-account";
 import React from "react";
-import { useCrews } from "./use-crews";
 import { Select } from "@inkjs/ui";
+import { useCrews } from "./use-crews";
 import { useSelectedCrew } from "./use-selected-crew";
+import { Account } from "../account/use-account";
 
 type Props = {
   account: Account;

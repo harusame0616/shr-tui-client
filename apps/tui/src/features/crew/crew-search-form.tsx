@@ -2,7 +2,7 @@ import { Box, Text, useInput, useFocus } from "ink";
 import { Form, FormProps } from "ink-form";
 import React from "react";
 import { CrewSearchCondition, useCrews } from "./use-crews";
-import { useAccounts } from "./use-account";
+import { useAccounts } from "../account/use-account";
 
 type Props = {
   onSubmit: () => void;

@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
 import React from "react";
-import { Account } from "./use-account";
+import { Account } from "../account/use-account";
 import { useCrew } from "./use-crew";
 import { useSelectedCrew } from "./use-selected-crew";
 

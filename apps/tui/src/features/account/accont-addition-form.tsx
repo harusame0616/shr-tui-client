@@ -3,7 +3,7 @@ import { Form, FormProps } from "ink-form";
 import React, { useState } from "react";
 import * as v from "valibot";
 import { useAccounts } from "./use-account";
-import { Display, useDisplay } from "./use-display";
+import { Display, useDisplay } from "../../use-display";
 
 const formSchema = v.object({
   name: v.pipe(v.string(), v.minLength(1, "アカウント名は必須です")),

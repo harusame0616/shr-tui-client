@@ -1,4 +1,4 @@
-import { Account } from "./use-account";
+import { Account } from "../account/use-account";
 
 export type Config = {
   accounts: Account[];

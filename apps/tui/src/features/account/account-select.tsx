@@ -2,7 +2,7 @@ import { Box, Text, useFocus, useInput } from "ink";
 import { useAccounts } from "./use-account";
 import { Select } from "@inkjs/ui";
 import React from "react";
-import { Display, useDisplay } from "./use-display";
+import { Display, useDisplay } from "../../use-display";
 
 export function AccountSelect() {
   const { isFocused, focus } = useFocus({
