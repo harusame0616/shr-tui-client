@@ -11,14 +11,12 @@ import { Crews } from "./features/crew/crews";
 
 export function Main() {
   return (
-    <Box>
+    <Box gap={1}>
       <Box flexDirection="column" width={24}>
         <AccountSelect />
         <ApiSelect />
       </Box>
-      <Box flexGrow={1}>
-        <Content />
-      </Box>
+      <Content />
     </Box>
   );
 }

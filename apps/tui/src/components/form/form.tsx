@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from "react";
 import { useFormOnSubmitProvider } from "./use-form";
 
 interface Props {
-  onSubmit: () => void;
+  onSubmit: (formData: Record<string,string>) => void;
 }
 
 export function Form({ children, onSubmit }: PropsWithChildren<Props>) {
@@ -15,7 +15,7 @@ export function Form({ children, onSubmit }: PropsWithChildren<Props>) {
   );
 }
 
-function FormOnSubmitProvider({ onSubmit, }: { onSubmit: () => void }) {
+function FormOnSubmitProvider({ onSubmit, }: { onSubmit: (formData: Record<string, string> ) => void}) {
   useFormOnSubmitProvider(onSubmit);
 
   return null;

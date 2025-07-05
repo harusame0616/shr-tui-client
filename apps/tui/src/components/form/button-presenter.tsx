@@ -4,15 +4,15 @@ import React from "react";
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
+  id?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const ButtonPresenter: React.FC<ButtonProps> = ({
   children,
   onClick,
+  id,
 }) => {
-  const { isFocused } = useFocus({
-    autoFocus:false,
-  });
+  const { isFocused } = useFocus({ autoFocus: false, id });
 
   useInput(
     (_, key) => {
@@ -22,7 +22,7 @@ export const Button: React.FC<ButtonProps> = ({
 
       onClick?.();
     },
-    { isActive: isFocused, }
+    { isActive: isFocused }
   );
 
   return (
@@ -31,7 +31,6 @@ export const Button: React.FC<ButtonProps> = ({
       borderColor={isFocused ? "cyan" : undefined}
       paddingX={2}
       paddingY={0}
-      borderDimColor={!isFocused}
       justifyContent="center"
     >
       <Text bold={isFocused}>{children}</Text>

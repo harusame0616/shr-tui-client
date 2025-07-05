@@ -1,20 +1,18 @@
-import React from "react";
-import { Button } from "../button";
-import { useFormOnSubmit } from "./use-form";
+import React, { ComponentProps, PropsWithChildren } from "react";
+import { ButtonPresenter } from "./button-presenter";
+import { useFormData, useFormOnSubmit } from "./use-form";
 
-interface SubmitButtonProps {
-  children: React.ReactNode;
-}
-
-export const SubmitButton: React.FC<SubmitButtonProps> = ({
+export function SubmitButton({
   children,
-}) => {
+  onClick,
+}: PropsWithChildren<ComponentProps<typeof ButtonPresenter>>) {
   const { onSubmit } = useFormOnSubmit();
+  const { formData } = useFormData();
 
+  function handleClick() {
+    onClick?.();
+    onSubmit?.(formData);
+  }
 
-  return (
-    <Button onClick={onSubmit}>
-      {children}
-    </Button>
-  );
-};
+  return <ButtonPresenter onClick={handleClick}>{children}</ButtonPresenter>;
+}

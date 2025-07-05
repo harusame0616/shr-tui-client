@@ -1,9 +1,12 @@
+import { Alert } from "@inkjs/ui";
 import { Box, Text } from "ink";
-import { Form, FormProps } from "ink-form";
 import React, { useState } from "react";
 import * as v from "valibot";
-import { useAccounts } from "./use-account";
+import { Button } from "../../components/form/button";
+import { Form } from "../../components/form/form";
+import { Input } from "../../components/form/input";
 import { Display, useDisplay } from "../../use-display";
+import { useAccounts } from "./use-account";
 
 const formSchema = v.object({
   name: v.pipe(v.string(), v.minLength(1, "アカウント名は必須です")),
@@ -18,66 +21,52 @@ const formSchema = v.object({
 export function AccountAdditionForm() {
   const { addAccount } = useAccounts();
   const { setDisplay } = useDisplay();
-  const [messages, setMessages] = useState<string[]>([]);
-  const form: FormProps = {
-    form: {
-      title: "アカウント登録",
-      sections: [
-        {
-          title: "アカウント情報",
-          fields: [
-            {
-              type: "string",
-              name: "name",
-              description:"tesdf",
-              label: "アカウント名（必須）",
-              initialValue:""
-            },
-            {
-              type: "string",
-              name: "endpoint",
-              label: "エンドポイント（必須）",
-              initialValue:""
-            },
-            {
-              type: "string",
-              name: "token",
-              label: "トークン（必須）",
-              mask: "*",
-              initialValue:""
-            },
-          ],
-        },
-      ],
-    },
-    onSubmit(formData) {
-      const parseResult = v.safeParse(formSchema, formData);
-      if (!parseResult.success) {
-        setMessages(parseResult.issues.map((issue) => issue.message));
-        return;
-      }
+  const [issue, setIssue] = useState<
+    Record<string, string[] | undefined> | undefined
+  >({});
+  const nameError = issue?.["name"]?.[0];
+  const endpointError = issue?.["endpoint"]?.[0];
+  const tokenError = issue?.["token"]?.[0];
 
-      try {
-        addAccount({
-          name: parseResult.output.name,
-          endpoint: parseResult.output.endpoint,
-          token: parseResult.output.token,
-        });
-        setDisplay(Display.Main);
-      } catch (error: unknown) {
-        setMessages([(error as Error).message])
-      }
-    },
-  };
+  function handleSubmit(formData: Record<string, string>) {
+    const parseResult = v.safeParse(formSchema, formData);
+    if (!parseResult.success) {
+      setIssue(v.flatten(parseResult.issues).nested);
+      return;
+    }
+
+    addAccount({
+      name: parseResult.output.name,
+      endpoint: parseResult.output.endpoint,
+      token: parseResult.output.token,
+    });
+
+    setDisplay(Display.Main);
+  }
 
   return (
     <Box flexDirection="column" width="100%">
-      <Form {...form} />
-      <Box flexDirection="column">
-        {messages.map((message) => (
-          <Text color="red" key={message}>※ {message}</Text>
-        ))}
-      </Box>
+      <Form onSubmit={handleSubmit}>
+        <Box flexDirection="column">
+          <Text>アカウント名</Text>
+          <Input name="name" />
+        </Box>
+        {nameError ? <Alert variant="error">{tokenError}</Alert> : null}
+        <Box flexDirection="column">
+          <Text>エンドポイント</Text>
+          <Input name="endpoint" />
+        </Box>
+        {endpointError ? <Alert variant="error">{endpointError}</Alert> : null}
+        <Box flexDirection="column">
+          <Text>トークン</Text>
+          <Input name="token" type="password" />
+        </Box>
+
+        {nameError ? <Alert variant="error">{tokenError}</Alert> : null}
+        <Box width={40}>
+        <Button>登録する</Button>
+        </Box>
+      </Form>
     </Box>
   );
 }
