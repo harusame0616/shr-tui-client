@@ -1,24 +1,20 @@
 import { PasswordInput, TextInput } from "@inkjs/ui";
-import { Box, useFocus } from "ink";
-import React, { PropsWithChildren, useEffect } from "react";
+import { Box } from "ink";
+import React, { PropsWithChildren } from "react";
 import { useFormData, useFormItem, useFormOnSubmit } from "./use-form";
 
 type Props = {
   name: string;
   type?: "text" | "password";
+  isDisabled?: boolean;
 };
-export function Input({ name, type = "text" }: Props) {
+export function Input({ name, type = "text", isDisabled = false }: Props) {
   const { updateItem } = useFormItem(name);
-  const { isFocused } = useFocus({ autoFocus: false });
   const { onSubmit } = useFormOnSubmit();
   const { formData } = useFormData();
 
-  useEffect(() => {
-    updateItem("");
-  }, []);
-
   function handleSubmit() {
-    if (!isFocused) {
+    if (isDisabled) {
       return;
     }
 
@@ -27,9 +23,9 @@ export function Input({ name, type = "text" }: Props) {
   switch (type) {
     case "text":
       return (
-        <Layout active={isFocused}>
+        <Layout active={!isDisabled}>
           <TextInput
-            isDisabled={!isFocused}
+            isDisabled={isDisabled}
             onChange={updateItem}
             onSubmit={handleSubmit}
           />
@@ -37,12 +33,16 @@ export function Input({ name, type = "text" }: Props) {
       );
     case "password":
       return (
-        <Layout active={isFocused}>
-          <PasswordInput isDisabled={!isFocused} onChange={updateItem} onSubmit={handleSubmit}/>
+        <Layout active={!isDisabled}>
+          <PasswordInput
+            isDisabled={isDisabled}
+            onChange={updateItem}
+            onSubmit={handleSubmit}
+          />
         </Layout>
       );
     default:
-      return type satisfies never;
+      throw new Error(`Unexpected type: ${type satisfies never}`);
   }
 }
 

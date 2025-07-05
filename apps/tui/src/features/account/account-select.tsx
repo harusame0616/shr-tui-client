@@ -2,31 +2,28 @@ import { Box, Text, useFocus, useInput } from "ink";
 import { useAccounts } from "./use-account";
 import { Select } from "@inkjs/ui";
 import React from "react";
-import { Display, useDisplay } from "../../use-display";
+import { Route, useRouter } from "../router/use-router";
 
 export function AccountSelect() {
-  const { isFocused, focus } = useFocus({
+  const router = useRouter();
+  const { isFocused } = useFocus({
     id: "account-select",
-    autoFocus: true,
+    autoFocus: false,
   });
-  const { setDisplay } = useDisplay();
   const { activateAccount, accounts, activeAccount } = useAccounts();
 
   useInput(
-    (input, key) => {
+    (input) => {
       if (input === "a") {
-        focus("none");
-        setDisplay(Display.AccountAddition);
+        router.push(Route.AccountAddition);
       }
     },
-    {
-      isActive: isFocused,
-    }
+    { isActive: isFocused }
   );
 
   return (
     <Box borderStyle="round" flexDirection="column" height={9}>
-      <Text bold={isFocused}>{isFocused && "▶  "}アカウント</Text>
+      <Text>アカウント</Text>
       {isFocused && <Text dimColor>※ Aキーで追加</Text>}
       <Box
         width="100%"
@@ -38,7 +35,7 @@ export function AccountSelect() {
       <Select
         isDisabled={!isFocused}
         defaultValue={activeAccount?.accountId}
-        visibleOptionCount={5}
+        visibleOptionCount={4}
         options={accounts.map((account) => ({
           label: account.name,
           value: account.accountId,

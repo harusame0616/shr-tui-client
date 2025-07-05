@@ -38,7 +38,7 @@ export function useFormItem(name: string) {
   );
 
   return {
-    updateItem: updateItem,
+    updateItem,
     item: formData[name],
   };
 }

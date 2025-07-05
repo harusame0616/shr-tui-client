@@ -16,7 +16,7 @@ export const ButtonPresenter: React.FC<ButtonProps> = ({
 
   useInput(
     (_, key) => {
-      if (!key.return || !isFocused) {
+      if (!key.return) {
         return;
       }
 

@@ -4,17 +4,19 @@ import { SubmitButton } from "./submit-button";
 
 type Props = {
   type?: "button" | "submit";
+  id?: string
 };
 export function Button({
   type = "submit",
   children,
+  id
 }: PropsWithChildren<Props>) {
   switch (type) {
     case "button":
-      return <ButtonPresenter>{children}</ButtonPresenter>;
+      return <ButtonPresenter id={id}>{children}</ButtonPresenter>;
     case "submit":
-      return <SubmitButton>{children}</SubmitButton>;
+      return <SubmitButton id={id}>{children}</SubmitButton>;
     default:
-      return type satisfies never;
+      throw new Error(`Unexpected type: ${type satisfies never}`);
   }
 }

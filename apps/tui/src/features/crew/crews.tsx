@@ -1,38 +1,40 @@
 import { Select } from "@inkjs/ui";
 import { Box, Text, useFocus, useInput } from "ink";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { Account } from "../account/use-account";
 import { useCrews } from "./use-crews";
 import { useSelectedCrew } from "./use-selected-crew";
+import { Route, useRouter } from "../router/use-router";
 
 type Props = {
   account: Account;
-  onSearchKeyPress?: () => void;
 };
 
-export function Crews({ account, onSearchKeyPress }: Props) {
+export function Crews({ account }: Props) {
+  const router = useRouter();
   const { crews, error, isLoading, searchCondition, setSearchCondition } =
-    useCrews(account);
-  const { isFocused } = useFocus({
-    id: "crews",
-  });
+  useCrews(account);
+
+  const { focus, isFocused } = useFocus({ id: "crews" });
   // ショートカットキーの処理
-  useInput((input) => {
-    if (isFocused) {
-      // Fキーで検索フォーム表示
-      if (input.toLowerCase() === "f" && onSearchKeyPress) {
-        onSearchKeyPress();
+  useInput(
+    (input) => {
+      if (input.toLowerCase() === "f") {
+        router.push(Route.CrewsWithSearch);
+        focus("crew-search-form");
       }
-      // Cキーで検索条件クリア
       if (input.toLowerCase() === "c" && searchCondition) {
         setSearchCondition(undefined);
       }
+    },
+    {
+      isActive: isFocused,
     }
-  });
+  );
 
   return (
     <Box borderStyle="round" flexDirection="column" minHeight={15} width="100%">
-      <Text bold={isFocused}>{isFocused && "▶  "}従業員一覧</Text>
+      <Text>従業員一覧</Text>
       {isFocused && (
         <Box flexDirection="column">
           <Text dimColor>※ Fキーで検索</Text>
@@ -46,8 +48,13 @@ export function Crews({ account, onSearchKeyPress }: Props) {
         borderLeft={false}
         borderRight={false}
       />
-      <Box paddingTop={1}>
-        <CrewsContent crews={crews} error={error} isLoading={isLoading} isFocused={isFocused} />
+      <Box>
+        <CrewsContent
+          crews={crews}
+          error={error}
+          isLoading={isLoading}
+          isFocused={isFocused}
+        />
       </Box>
     </Box>
   );
@@ -58,8 +65,26 @@ function CrewsContent({
   error,
   isLoading,
   isFocused,
-}: Pick<ReturnType<typeof useCrews>, "crews" | "error" | "isLoading"> & {isFocused:boolean}) {
-  const { setSelectedCrewId } = useSelectedCrew();
+}: Pick<ReturnType<typeof useCrews>, "crews" | "error" | "isLoading"> & {
+  isFocused: boolean;
+}) {
+  const router = useRouter();
+  const { setSelectedCrewId, selectedCrewId } = useSelectedCrew();
+
+  const handleChange = useCallback(
+    (value: string) => {
+      if (!isFocused) {
+        return;
+      }
+      setSelectedCrewId(value);
+    },
+    [isFocused, router, setSelectedCrewId]
+  );
+
+  // handleChange が意図しないタイミングで実行されるため useEffect で対応
+  useEffect(() => {
+    router.push(Route.Crews);
+  }, [selectedCrewId]);
 
   if (isLoading) {
     return <Text color="gray">読み込み中...</Text>;
@@ -82,9 +107,7 @@ function CrewsContent({
           label: `${crew.lastName} ${crew.firstName}（${crew.employeeCode}）`,
           value: crew.crewId,
         }))}
-        onChange={(value) => {
-          setSelectedCrewId(value);
-        }}
+        onChange={handleChange}
       />
     </Box>
   );

@@ -5,6 +5,7 @@ import { useFormData, useFormOnSubmit } from "./use-form";
 export function SubmitButton({
   children,
   onClick,
+  id,
 }: PropsWithChildren<ComponentProps<typeof ButtonPresenter>>) {
   const { onSubmit } = useFormOnSubmit();
   const { formData } = useFormData();
@@ -14,5 +15,9 @@ export function SubmitButton({
     onSubmit?.(formData);
   }
 
-  return <ButtonPresenter onClick={handleClick}>{children}</ButtonPresenter>;
+  return (
+    <ButtonPresenter id={id} onClick={handleClick}>
+      {children}
+    </ButtonPresenter>
+  );
 }
