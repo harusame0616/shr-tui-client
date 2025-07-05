@@ -5,7 +5,7 @@ import { ApiSelect } from "./features/api/api-select";
 import { CrewDetail } from "./features/crew/crew-detail";
 import { CrewSearchForm } from "./features/crew/crew-search-form";
 import { useAccounts } from "./features/account/use-account";
-import { useApi } from "./features/api/use-api";
+import { Api, useApi } from "./features/api/use-api";
 import { useSelectedCrew } from "./features/crew/use-selected-crew";
 import { Crews } from "./features/crew/crews";
 
@@ -35,7 +35,7 @@ function Content() {
     return <Text>API を選択してください</Text>;
   }
 
-  if (activeApi.apiId === "crews") {
+  if (activeApi.apiId === Api.Crews.apiId) {
     return (
       <Box width="100%">
         <Box width={40}>
@@ -64,7 +64,7 @@ function Content() {
 
   return (
     <Box>
-      <Text>{JSON.stringify(activeApi)}</Text>
+      <Text>Not implemented</Text>
     </Box>
   );
 }
