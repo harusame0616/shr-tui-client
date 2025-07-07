@@ -1,7 +1,6 @@
 import useSWR from "swr";
 import { Account } from "../account/use-account";
 import { SmartHrCrew } from "./smart-hr-crew";
-import { SmartHrUser } from "../user/smart-hr-user";
 import * as v from "valibot";
 
 const crewDetailSchema = v.object({
@@ -16,7 +15,6 @@ const crewDetailSchema = v.object({
   employeeCode: v.string(),
   employmentStatus: v.optional(v.nullable(v.string())),
   resignedAt: v.optional(v.nullable(v.string())),
-  email: v.optional(v.nullable(v.string())),
   employmentType: v.optional(v.nullable(v.string())),
   position: v.optional(v.nullable(v.string())),
   department: v.optional(v.nullable(v.string())),
@@ -33,22 +31,11 @@ const crewDetailSchema = v.object({
       building: v.optional(v.string()),
     })
   ),
-  role: v.optional(
-    v.object({
-      id: v.optional(v.string()),
-      name: v.optional(v.string()),
-    })
-  ),
-  activated: v.optional(v.boolean()),
-  suspended: v.optional(v.boolean()),
 });
 
 type CrewDetail = v.InferOutput<typeof crewDetailSchema>;
 
-function toCrewDetail(
-  crew: SmartHrCrew,
-  user?: SmartHrUser | null
-): CrewDetail {
+function toCrewDetail(crew: SmartHrCrew): CrewDetail {
   return parseCrewDetail({
     crewId: crew.id,
     userId: crew.user_id,
@@ -61,7 +48,6 @@ function toCrewDetail(
     employeeCode: crew.emp_code || "",
     employmentStatus: crew.emp_status,
     resignedAt: crew.resigned_at,
-    email: user?.email,
     employmentType: crew.employment_type?.name,
     position: crew.position || crew.positions?.[0]?.name,
     department: crew.department || crew.departments?.[0]?.name,
@@ -78,14 +64,6 @@ function toCrewDetail(
           building: crew.address.building,
         }
       : undefined,
-    role: user?.role
-      ? {
-          id: user.role.id,
-          name: user.role.name,
-        }
-      : undefined,
-    activated: user?.activated || undefined,
-    suspended: user?.suspended || undefined,
   } satisfies v.InferInput<typeof crewDetailSchema>);
 }
 
@@ -108,32 +86,13 @@ const crewFetcher = async (
   return response.json() as Promise<SmartHrCrew>;
 };
 
-const userFetcher = async (
-  url: string | null,
-  token: string
-): Promise<SmartHrUser | null> => {
-  if (!url) {
-    return null;
-  }
-
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) {
-    throw new Error(`Failed to fetch user: ${response.statusText}`);
-  }
-  return response.json() as Promise<SmartHrUser | null>;
-};
-
 export function useCrew(account: Account, crewId: string) {
   const crewUrl = new URL(`crews/${crewId}`, account.endpoint);
 
   const {
-    data: crewData,
-    error: crewError,
-    isLoading: crewLoading,
+    data: data,
+    error: error,
+    isLoading: isLoading,
   } = useSWR(
     [crewUrl.href, account.token],
     ([url, token]) => crewFetcher(url, token),
@@ -142,30 +101,25 @@ export function useCrew(account: Account, crewId: string) {
     }
   );
 
-  const {
-    data: userData,
-    error: userError,
-    isLoading: userLoading,
-  } = useSWR(
-    [
-      crewData?.user_id
-        ? new URL(`users/${crewData.user_id}`, account.endpoint).href
-        : null,
-      account.token,
-    ],
-    ([url, token]) => userFetcher(url, token),
-    {
-      refreshInterval: 30000,
-    }
-  );
+  if (isLoading) {
+    return {
+      isLoading: true,
+      data: null,
+      error: null,
+    } as const;
+  }
 
-  const isLoading = crewLoading || (crewData?.user_id && userLoading);
-  const error = crewError || userError;
-  const crew = crewData && !isLoading ? toCrewDetail(crewData, userData) : null;
+  if (error) {
+    return {
+      isLoading: false,
+      data: null,
+      error,
+    };
+  }
 
   return {
-    crew,
-    error,
-    isLoading,
-  };
+    data: data ? toCrewDetail(data) : null,
+    isLoading: false,
+    error: null,
+  } as const;
 }
