@@ -1,4 +1,4 @@
-export interface SmartHrAddress {
+interface SmartHrAddress {
   country_number?: string;
   zip_code?: string;
   pref?: string;
@@ -8,7 +8,7 @@ export interface SmartHrAddress {
   literal_yomi?: string;
 }
 
-export interface SmartHrSr {
+interface SmartHrSr {
   id?: string;
   first_name?: string;
   last_name?: string;
@@ -21,7 +21,7 @@ export interface SmartHrSr {
   address?: SmartHrAddress;
 }
 
-export interface SmartHrBizEstablishment {
+interface SmartHrBizEstablishment {
   id?: string;
   hel_ins_type?: "kyokai_kenpo";
   hel_ins_name?: string;
@@ -46,26 +46,26 @@ export interface SmartHrBizEstablishment {
   created_at?: string;
 }
 
-export interface SmartHrEmploymentType {
+interface SmartHrEmploymentType {
   id?: string;
   name?: string;
   preset_type?: "board_member";
   code?: string;
 }
 
-export interface SmartHrImageFile {
+interface SmartHrImageFile {
   file_name?: string;
   url?: string;
 }
 
-export interface SmartHrProfileImage {
+interface SmartHrProfileImage {
   size_type?: "thumb";
   height?: number;
   width?: number;
   url?: string;
 }
 
-export interface SmartHrPosition {
+interface SmartHrPosition {
   id?: string;
   name?: string;
   rank?: number;
@@ -73,7 +73,7 @@ export interface SmartHrPosition {
   created_at?: string;
 }
 
-export interface SmartHrGrade {
+interface SmartHrGrade {
   id?: string;
   name?: string;
   rank?: number;
@@ -81,20 +81,20 @@ export interface SmartHrGrade {
   updated_at?: string;
 }
 
-export interface SmartHrJobCategory {
+interface SmartHrJobCategory {
   id?: string;
   name?: string;
   created_at?: string;
   updated_at?: string;
 }
 
-export interface SmartHrPaymentPeriod {
+interface SmartHrPaymentPeriod {
   id?: string;
   name?: string;
   period_type?: "monthly";
 }
 
-export interface SmartHrBankAccount {
+interface SmartHrBankAccount {
   bank_code?: string;
   bank_branch_code?: string;
   account_type?: "saving";
@@ -107,7 +107,7 @@ export interface SmartHrBankAccount {
   bank_account_setting_id?: string;
 }
 
-export interface SmartHrDepartment {
+interface SmartHrDepartment {
   id?: string;
   name?: string;
   full_name?: string;
@@ -116,14 +116,14 @@ export interface SmartHrDepartment {
   parent?: string;
 }
 
-export interface SmartHrCustomFieldElement {
+interface SmartHrCustomFieldElement {
   id?: string;
   name?: string;
   physical_name?: string;
   position?: number;
 }
 
-export interface SmartHrCustomFieldTemplate {
+interface SmartHrCustomFieldTemplate {
   id?: string;
   name?: string;
   type?: "date";
@@ -137,7 +137,7 @@ export interface SmartHrCustomFieldTemplate {
   created_at?: string;
 }
 
-export interface SmartHrCustomField {
+interface SmartHrCustomField {
   value?: string;
   template?: SmartHrCustomFieldTemplate;
 }

@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { Account } from "../account/use-account";
 import { SmartHrCrew } from "./smart-hr-crew";
-import { SmartHrUser } from "./smart-hr-user";
+import { SmartHrUser } from "../user/smart-hr-user";
 import * as v from "valibot";
 
 const crewDetailSchema = v.object({
@@ -84,8 +84,8 @@ function toCrewDetail(
           name: user.role.name,
         }
       : undefined,
-    activated: user?.activated,
-    suspended: user?.suspended,
+    activated: user?.activated || undefined,
+    suspended: user?.suspended || undefined,
   } satisfies v.InferInput<typeof crewDetailSchema>);
 }
 

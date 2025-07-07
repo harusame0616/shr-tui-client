@@ -9,6 +9,9 @@ import { CrewSearchForm } from "./features/crew/crew-search-form";
 import { Crews } from "./features/crew/crews";
 import { useSelectedCrew } from "./features/crew/use-selected-crew";
 import { Route, useRouter } from "./features/router/use-router";
+import { Users } from "./features/user/users";
+import { UserDetail } from "./features/user/user-detail";
+import { useSelectedUser } from "./features/user/use-selected-user";
 
 export function App() {
   return (
@@ -40,6 +43,7 @@ function Page() {
   const { activeAccount } = useAccounts();
   const router = useRouter();
   const { selectedCrewId } = useSelectedCrew();
+  const { selectedUserId } = useSelectedUser();
 
   if (!activeAccount) {
     return (
@@ -87,10 +91,15 @@ function Page() {
     case Route.Users:
       return (
         <Box>
-          <Text>not implemented</Text>
+          <Box width={40}>
+            <Users account={activeAccount} />
+          </Box>
+          <Box flexGrow={1}>
+            {selectedUserId && <UserDetail account={activeAccount} />}
+          </Box>
         </Box>
       );
     default:
-        throw new Error(`Unexpected route: ${router.route satisfies never}`);
+      throw new Error(`Unexpected route: ${router.route satisfies never}`);
   }
 }
