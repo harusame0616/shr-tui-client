@@ -114,17 +114,22 @@ export function AccountAdditionForm() {
       />
       <Form onSubmit={handleSubmit}>
         <Box flexDirection="column">
-          <Text>アカウント名</Text>
+          <Text>アカウント名（必須）</Text>
+          <Text dimColor={true}>アカウントを識別する任意の名前を入力してください。</Text>
           <Input name="name" isDisabled={!isNameFocused} />
         </Box>
         {nameError ? <Alert variant="error">{tokenError}</Alert> : null}
         <Box flexDirection="column">
-          <Text>エンドポイント</Text>
+          <Text>エンドポイント名（必須）</Text>
+          <Text dimColor>アカウントの API のエンドポイントを入力してください</Text>
+          <Text dimColor>https://アカウントID.smarthr.jp/api/v1</Text>
           <Input name="endpoint" isDisabled={!isEndpointFocused} />
         </Box>
         {endpointError ? <Alert variant="error">{endpointError}</Alert> : null}
         <Box flexDirection="column">
-          <Text>トークン</Text>
+          <Text>アクセストークン（必須）</Text>
+          <Text dimColor>API に接続するためのアクセストークンを入力してください</Text>
+          <Text dimColor>shr_******</Text>
           <Input name="token" type="password" isDisabled={!isTokenFocused} />
         </Box>
 
