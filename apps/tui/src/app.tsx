@@ -47,8 +47,9 @@ function Page() {
 
   if (!activeAccount) {
     return (
-      <Box>
-        <Text>アカウントを作成して選択してください</Text>
+      <Box flexDirection="column" width="100%">
+        <Text>最初に Smart HR のアカウントを登録してください</Text>
+        <AccountAdditionForm />
       </Box>
     );
   }
