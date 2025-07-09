@@ -7,12 +7,15 @@ const onSubmitAtom = atom<((data: Record<string, string>) => void) | undefined>(
 const formDataAtom = atom<Record<string, string>>({});
 
 export function useFormOnSubmitProvider(
-  onSubmit: (formData: Record<string, string>) => void
+  onSubmit: (formData: Record<string, string>) => void,
+  initialValues: Record<string, string>
 ) {
   const setOnSubmit = useSetAtom(onSubmitAtom);
+  const setFormData = useSetAtom(formDataAtom);
 
   useEffect(() => {
     setOnSubmit(() => onSubmit);
+    setFormData(initialValues);
   }, [onSubmit]);
 }
 

@@ -39,7 +39,10 @@ export function useAccounts() {
   async function addAccount(newAccount: Omit<Account, "accountId">) {
     const exists = accounts.some((account) => account.name === newAccount.name);
     if (exists) {
-      throw new Error("登録済みの名前です");
+      return {
+        success: false,
+        message: "登録済みのアカウント名です",
+      } as const;
     }
 
     const newAccountWithId = { accountId: uuid(), ...newAccount };
@@ -52,6 +55,10 @@ export function useAccounts() {
       accounts: updatedAccounts,
       lastActiveAccountId: activeAccountId,
     });
+
+    return {
+      success: true,
+    } as const;
   }
 
   async function activateAccount(accountId: string) {

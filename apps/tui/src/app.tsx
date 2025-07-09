@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
 import React, { PropsWithChildren } from "react";
-import { AccountAdditionForm } from "./features/account/accont-addition-form";
+import { AddAccountForm } from "./features/account/accont-addition-form";
 import { AccountSelect } from "./features/account/account-select";
 import { useAccounts } from "./features/account/use-account";
 import { ApiSelect } from "./features/api/api-select";
@@ -49,7 +49,7 @@ function Page() {
     return (
       <Box flexDirection="column" width="100%">
         <Text>最初に Smart HR のアカウントを登録してください</Text>
-        <AccountAdditionForm />
+        <AddAccountForm />
       </Box>
     );
   }
@@ -80,7 +80,7 @@ function Page() {
     case Route.AccountAddition:
       return (
         <Box>
-          <AccountAdditionForm />
+          <AddAccountForm />
         </Box>
       );
     case Route.Departments:

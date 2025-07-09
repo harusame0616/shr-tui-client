@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/index.tsx"
+    "dev": "tsx src/index.tsx",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,8 @@
   "devDependencies": {
     "@types/node": "24.0.7",
     "@types/react": "19.1.8",
-    "tsx": "4.20.3"
+    "ink-testing-library": "4.0.0",
+    "tsx": "4.20.3",
+    "vitest": "3.2.4"
   }
 }

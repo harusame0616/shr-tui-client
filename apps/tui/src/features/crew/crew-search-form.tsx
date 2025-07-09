@@ -1,5 +1,5 @@
 import { Box, Text, useFocus, useInput } from "ink";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import * as v from "valibot";
 import { Button } from "../../components/form/button";
 import { Form } from "../../components/form/form";
@@ -60,10 +60,10 @@ export function CrewSearchForm() {
   );
 
   useEffect(() => {
-    focus("crew-search-form")
-  },[])
+    focus("crew-search-form");
+  }, []);
 
-  function handleSubmit(formData: Record<string, string>) {
+  const handleSubmit = useCallback((formData: Record<string, string>) => {
     const parseResult = v.safeParse(formSchema, formData);
     if (!parseResult.success) {
       return;
@@ -80,8 +80,8 @@ export function CrewSearchForm() {
     if (parseResult.output.id) params.id = parseResult.output.id;
 
     setSearchCondition(params);
-    focus('crews')
-  }
+    focus("crews");
+  }, []);
 
   return (
     <Box flexDirection="column" width="100%" borderStyle="round">
@@ -94,7 +94,16 @@ export function CrewSearchForm() {
         borderRight={false}
       />
 
-      <Form onSubmit={handleSubmit}>
+      <Form
+        onSubmit={handleSubmit}
+        initialValues={{
+          emp_code: "",
+          user_id: "",
+          dept_id: "",
+          q: "",
+          id: "",
+        }}
+      >
         <Box flexDirection="column">
           <Text>従業員コード</Text>
           <Input name="emp_code" isDisabled={!isEmpCodeFocused} />

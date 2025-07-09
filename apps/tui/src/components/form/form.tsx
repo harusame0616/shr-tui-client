@@ -4,19 +4,20 @@ import { useFormOnSubmitProvider } from "./use-form";
 
 interface Props {
   onSubmit: (formData: Record<string,string>) => void;
+  initialValues: Record<string, string>
 }
 
-export function Form({ children, onSubmit }: PropsWithChildren<Props>) {
+export function Form({ children, onSubmit, initialValues }: PropsWithChildren<Props>) {
   return (
     <Provider>
-      <FormOnSubmitProvider onSubmit={onSubmit} />
+      <FormOnSubmitProvider onSubmit={onSubmit} initialValues={ initialValues} />
       {children}
     </Provider>
   );
 }
 
-function FormOnSubmitProvider({ onSubmit, }: { onSubmit: (formData: Record<string, string> ) => void}) {
-  useFormOnSubmitProvider(onSubmit);
+function FormOnSubmitProvider({ onSubmit, initialValues }: { onSubmit: (formData: Record<string, string> ) => void, initialValues: Record<string, string>}) {
+  useFormOnSubmitProvider(onSubmit, initialValues);
 
   return null;
 }
